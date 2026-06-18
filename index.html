@@ -40,9 +40,7 @@
       padding: 45px 25px;
       background: rgba(0,0,0,.55);
       backdrop-filter: blur(8px);
-      box-shadow:
-        0 20px 60px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
     }
 
     h1 {
@@ -135,7 +133,6 @@
       border-radius: 24px;
       border: 1px solid rgba(181,138,69,.20);
       box-shadow: 0 20px 70px rgba(0,0,0,.40);
-      overflow: hidden;
     }
 
     .grid {
@@ -153,6 +150,13 @@
       min-height: 210px;
       overflow: hidden;
       box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      transition: .3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(181,138,69,.45);
+      box-shadow: 0 15px 40px rgba(181,138,69,.12);
     }
 
     .card img {
@@ -163,29 +167,28 @@
       border-radius: 16px;
       border: 1px solid rgba(181,138,69,.12);
       margin-bottom: 18px;
-    }
-
-    .sealed {
-      opacity: .68;
-    }
-
-    .civ-card {
-      cursor: pointer;
-      transition: .3s ease;
-    }
-
-    .civ-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(181,138,69,.45);
-      box-shadow: 0 15px 40px rgba(181,138,69,.12);
-    }
-
-    .civ-card img {
       transition: .4s ease;
     }
 
-    .civ-card:hover img {
-      transform: scale(1.03);
+    .card:hover img { transform: scale(1.03); }
+
+    .clickable { cursor: pointer; }
+
+    .sealed {
+      opacity: .58;
+      filter: grayscale(.35);
+    }
+
+    .system-card {
+      min-height: 180px;
+    }
+
+    .system-code {
+      font-size: 34px;
+      color: #b58a45;
+      line-height: 1;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
     }
 
     .archive {
@@ -217,9 +220,7 @@
       padding: 20px;
     }
 
-    .modal.active {
-      display: flex;
-    }
+    .modal.active { display: flex; }
 
     .modal-content {
       width: min(760px, 95vw);
@@ -233,6 +234,10 @@
 
     .modal-image {
       width: 100%;
+      display: none;
+    }
+
+    .modal-image.show {
       display: block;
     }
 
@@ -288,9 +293,7 @@
         max-height: 86vh;
       }
 
-      .modal-text h3 {
-        font-size: 28px;
-      }
+      .modal-text h3 { font-size: 28px; }
     }
   </style>
 </head>
@@ -338,18 +341,39 @@
     </div>
   </section>
 
-  <section>
+  <section id="systems">
     <div class="container">
       <div class="kicker">12 столпов</div>
       <h2>Системы Heartlands</h2>
 
       <div class="grid">
-        <div class="card"><h3>EMS</h3><p>Emergent Memory System. Мир помнит ваши поступки.</p></div>
-        <div class="card"><h3>PHS</h3><p>Persistent Historical Simulation. История продолжается без игрока.</p></div>
-        <div class="card"><h3>LTD</h3><p>Last Thread Doctrine. Каждая смерть имеет значение.</p></div>
-        <div class="card sealed"><h3>WGA</h3><p>Эта механика будет раскрыта позже.</p></div>
-        <div class="card sealed"><h3>DPE</h3><p>Ильнир ещё не открыл все свои законы.</p></div>
-        <div class="card sealed"><h3>LMS</h3><p>Запись ожидает подтверждения Архива.</p></div>
+        <div class="card system-card clickable" onclick="openModal('', 'EMS — Emergent Memory System', 'Мир запоминает поступки игрока, решения правителей, судьбы династий, войны, предательства и великие свершения. Память становится частью симуляции.')">
+          <div class="system-code">EMS</div>
+          <h3>Мир помнит</h3>
+          <p>Emergent Memory System.</p>
+        </div>
+
+        <div class="card system-card clickable" onclick="openModal('', 'PHS — Persistent Historical Simulation', 'История Ильнира продолжается без игрока. Рождаются люди, гибнут правители, меняются государства, возникают новые эпохи и исчезают старые порядки.')">
+          <div class="system-code">PHS</div>
+          <h3>История продолжается</h3>
+          <p>Persistent Historical Simulation.</p>
+        </div>
+
+        <div class="card system-card clickable" onclick="openModal('', 'LTD — Last Thread Doctrine', 'Последняя Нить даёт шанс пережить смерть, но каждая спасённая жизнь оставляет последствия. Когда нити заканчиваются, смерть становится окончательной.')">
+          <div class="system-code">LTD</div>
+          <h3>Последняя Нить</h3>
+          <p>Last Thread Doctrine.</p>
+        </div>
+
+        <div class="card system-card sealed clickable" onclick="sealedRecord('WGA — World Generation Action')"><div class="system-code">WGA</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('DPE — Dynamic Political Evolution')"><div class="system-code">DPE</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('SRS — Survival Reality System')"><div class="system-code">SRS</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('LCA — Living Culture Architecture')"><div class="system-code">LCA</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('LWD — Living Warfare Doctrine')"><div class="system-code">LWD</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('LES — Living Economy System')"><div class="system-code">LES</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('WIS — World Information System')"><div class="system-code">WIS</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('DGS — Dynamic Governance System')"><div class="system-code">DGS</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
+        <div class="card system-card sealed clickable" onclick="sealedRecord('LMS — Living Magic System')"><div class="system-code">LMS</div><h3>Запечатано</h3><p>Запись ожидает открытия Архива.</p></div>
       </div>
     </div>
   </section>
@@ -360,67 +384,48 @@
       <h2>Народы Ильнира</h2>
 
       <div class="grid">
-
-        <div class="card civ-card" onclick="openCivilization(
-          'Подгорная Чудь',
-          'assets/images/civilizations/civilization_chud.png',
-          'Древнейшая из сохранившихся цивилизаций Ильнира. После Пепельного Разлома Чудь ушла глубоко под горы и превратила память в своё главное сокровище. В архивах Камнеграда хранятся хроники исчезнувших государств, забытых королей и целых эпох.'
-        )">
+        <div class="card clickable" onclick="openModal('assets/images/civilizations/civilization_chud.png', 'Подгорная Чудь', 'Древнейшая из сохранившихся цивилизаций Ильнира. После Пепельного Разлома Чудь ушла глубоко под горы и превратила память в своё главное сокровище.')">
           <img src="assets/images/civilizations/civilization_chud.png" alt="Подгорная Чудь">
           <h3>Подгорная Чудь</h3>
           <p>Хранители Памяти.</p>
         </div>
 
-        <div class="card civ-card" onclick="openCivilization(
-          'Древляне',
-          'assets/images/civilizations/civilization_drevlyane.png',
-          'Древний народ лесов и священных рощ. Древляне живут в гармонии с природой и чтят духов предков. Они хранят древние знания о травах, зверях и равновесии мира.'
-        )">
+        <div class="card clickable" onclick="openModal('assets/images/civilizations/civilization_drevlyane.png', 'Древляне', 'Древний народ лесов и священных рощ. Древляне живут в гармонии с природой и чтят духов предков.')">
           <img src="assets/images/civilizations/civilization_drevlyane.png" alt="Древляне">
           <h3>Древляне</h3>
           <p>Хранители Живого Мира.</p>
         </div>
 
-        <div class="card civ-card" onclick="openCivilization(
-          'Побережье Баронов',
-          'assets/images/civilizations/civilization_barons.png',
-          'Морская конфедерация баронских домов, капитанов, торговцев и частных флотов. Их власть держится на портах, кораблях, торговых путях и контроле над морем.'
-        )">
+        <div class="card clickable" onclick="openModal('assets/images/civilizations/civilization_barons.png', 'Побережье Баронов', 'Морская конфедерация баронских домов, капитанов, торговцев и частных флотов. Их власть держится на портах, кораблях и торговых путях.')">
           <img src="assets/images/civilizations/civilization_barons.png" alt="Побережье Баронов">
           <h3>Побережье Баронов</h3>
           <p>Хранители Морей.</p>
         </div>
 
-        <div class="card civ-card" onclick="openCivilization(
-          'Храмовый Собор',
-          'assets/images/civilizations/civilization_temple.png',
-          'Один из трёх великих столпов Ильнира. Храмовый Собор хранит веру, надежду и духовное единство земель после Пепельного Разлома.'
-        )">
+        <div class="card clickable" onclick="openModal('assets/images/civilizations/civilization_temple.png', 'Храмовый Собор', 'Один из трёх великих столпов Ильнира. Храмовый Собор хранит веру, надежду и духовное единство земель после Пепельного Разлома.')">
           <img src="assets/images/civilizations/civilization_temple.png" alt="Храмовый Собор">
           <h3>Храмовый Собор</h3>
           <p>Хранители Веры.</p>
         </div>
 
-        <div class="card civ-card" onclick="openCivilization(
-          'Башня Магии',
-          'assets/images/civilizations/civilization_tower.png',
-          'Главный центр знаний Ильнира. Магистры Башни изучают магию, Пепельный Разлом, древние хроники и тайны мира, чтобы сохранить знание для будущих поколений.'
-        )">
+        <div class="card clickable" onclick="openModal('assets/images/civilizations/civilization_tower.png', 'Башня Магии', 'Главный центр знаний Ильнира. Магистры Башни изучают магию, Пепельный Разлом, древние хроники и тайны мира.')">
           <img src="assets/images/civilizations/civilization_tower.png" alt="Башня Магии">
           <h3>Башня Магии</h3>
           <p>Хранители Знания.</p>
         </div>
 
-        <div class="card civ-card" onclick="openCivilization(
-          'Пепельные Рода',
-          'assets/images/civilizations/civilization_ashen_clans.png',
-          'Потомки людей, оставшихся рядом с Пепельным Разломом. Они научились жить там, где другие не выживают, и считают себя хранителями его границ.'
-        )">
+        <div class="card clickable" onclick="openModal('assets/images/civilizations/civilization_ashen_clans.png', 'Пепельные Рода', 'Потомки людей, оставшихся рядом с Пепельным Разломом. Они научились жить там, где другие не выживают.')">
           <img src="assets/images/civilizations/civilization_ashen_clans.png" alt="Пепельные Рода">
           <h3>Пепельные Рода</h3>
           <p>Хранители Разлома.</p>
         </div>
 
+        <div class="card sealed clickable" onclick="sealedRecord('Людские Княжества')"><h3>Людские Княжества</h3><p>Запись ещё не открыта Архивом.</p></div>
+        <div class="card sealed clickable" onclick="sealedRecord('Северные Кланы')"><h3>Северные Кланы</h3><p>Запись ещё не открыта Архивом.</p></div>
+        <div class="card sealed clickable" onclick="sealedRecord('Степные Кочевники')"><h3>Степные Кочевники</h3><p>Запись ещё не открыта Архивом.</p></div>
+        <div class="card sealed clickable" onclick="sealedRecord('Восточные Гильдии')"><h3>Восточные Гильдии</h3><p>Запись ещё не открыта Архивом.</p></div>
+        <div class="card sealed clickable" onclick="sealedRecord('Тени Болот')"><h3>Тени Болот</h3><p>Запись ещё не открыта Архивом.</p></div>
+        <div class="card sealed clickable" onclick="sealedRecord('Осквернённые')"><h3>Осквернённые</h3><p>Запись ещё не открыта Архивом.</p></div>
       </div>
     </div>
   </section>
@@ -441,9 +446,7 @@
         <div class="card"><h3>Создатель Первого Государства</h3><p>Ни одно государство ещё не было вписано в летописи мира.</p></div>
       </div>
 
-      <div class="quote">
-        Каждая жизнь заканчивается. Не каждая история умирает. Мир помнит.
-      </div>
+      <div class="quote">Каждая жизнь заканчивается. Не каждая история умирает. Мир помнит.</div>
     </div>
   </section>
 
@@ -464,9 +467,8 @@
     <p>The World Remembers.</p>
   </footer>
 
-  <div class="modal" id="civilizationModal">
-    <div class="modal-close" onclick="closeCivilization()">×</div>
-
+  <div class="modal" id="infoModal">
+    <div class="modal-close" onclick="closeModal()">×</div>
     <div class="modal-content">
       <img id="modalImage" class="modal-image" alt="">
       <div class="modal-text">
@@ -477,30 +479,41 @@
   </div>
 
   <script>
-    function openCivilization(title, image, text) {
+    function openModal(image, title, text) {
+      const modalImage = document.getElementById("modalImage");
+
       document.getElementById("modalTitle").innerText = title;
-      document.getElementById("modalImage").src = image;
-      document.getElementById("modalImage").alt = title;
       document.getElementById("modalDescription").innerText = text;
-      document.getElementById("civilizationModal").classList.add("active");
+
+      if (image) {
+        modalImage.src = image;
+        modalImage.alt = title;
+        modalImage.classList.add("show");
+      } else {
+        modalImage.src = "";
+        modalImage.alt = "";
+        modalImage.classList.remove("show");
+      }
+
+      document.getElementById("infoModal").classList.add("active");
       document.body.style.overflow = "hidden";
     }
 
-    function closeCivilization() {
-      document.getElementById("civilizationModal").classList.remove("active");
+    function sealedRecord(title) {
+      openModal('', title, 'Эта запись ещё не открыта Архивом Камнеграда. Летопись будет раскрыта позднее.');
+    }
+
+    function closeModal() {
+      document.getElementById("infoModal").classList.remove("active");
       document.body.style.overflow = "";
     }
 
-    document.getElementById("civilizationModal").addEventListener("click", function(e) {
-      if (e.target === this) {
-        closeCivilization();
-      }
+    document.getElementById("infoModal").addEventListener("click", function(e) {
+      if (e.target === this) closeModal();
     });
 
     document.addEventListener("keydown", function(e) {
-      if (e.key === "Escape") {
-        closeCivilization();
-      }
+      if (e.key === "Escape") closeModal();
     });
   </script>
 
