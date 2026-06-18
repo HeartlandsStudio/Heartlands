@@ -169,6 +169,25 @@
       opacity: .68;
     }
 
+    .civ-card {
+      cursor: pointer;
+      transition: .3s ease;
+    }
+
+    .civ-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(181,138,69,.45);
+      box-shadow: 0 15px 40px rgba(181,138,69,.12);
+    }
+
+    .civ-card img {
+      transition: .4s ease;
+    }
+
+    .civ-card:hover img {
+      transform: scale(1.03);
+    }
+
     .archive {
       background:
         linear-gradient(rgba(0,0,0,.72), rgba(0,0,0,.95)),
@@ -184,6 +203,62 @@
       font-size: 24px;
       color: #e8dfcf;
       box-shadow: 0 10px 40px rgba(0,0,0,.25);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,.92);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      width: min(760px, 95vw);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #0d0d0d;
+      border: 1px solid rgba(181,138,69,.3);
+      border-radius: 24px;
+      box-shadow: 0 20px 80px rgba(0,0,0,.6);
+    }
+
+    .modal-image {
+      width: 100%;
+      display: block;
+    }
+
+    .modal-text {
+      padding: 28px;
+    }
+
+    .modal-text h3 {
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    .modal-text p {
+      font-size: 18px;
+      color: #b7ad99;
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 18px;
+      right: 24px;
+      font-size: 42px;
+      line-height: 1;
+      color: #e8dfcf;
+      cursor: pointer;
+      z-index: 10000;
     }
 
     footer {
@@ -206,6 +281,15 @@
         width: 100%;
         max-width: 320px;
         text-align: center;
+      }
+
+      .modal-content {
+        width: 94vw;
+        max-height: 86vh;
+      }
+
+      .modal-text h3 {
+        font-size: 28px;
       }
     }
   </style>
@@ -270,47 +354,73 @@
     </div>
   </section>
 
-  <section>
+  <section id="civilizations">
     <div class="container">
       <div class="kicker">Цивилизации</div>
       <h2>Народы Ильнира</h2>
 
       <div class="grid">
-        <div class="card">
+
+        <div class="card civ-card" onclick="openCivilization(
+          'Подгорная Чудь',
+          'assets/images/civilizations/civilization_chud.png',
+          'Древнейшая из сохранившихся цивилизаций Ильнира. После Пепельного Разлома Чудь ушла глубоко под горы и превратила память в своё главное сокровище. В архивах Камнеграда хранятся хроники исчезнувших государств, забытых королей и целых эпох.'
+        )">
           <img src="assets/images/civilizations/civilization_chud.png" alt="Подгорная Чудь">
           <h3>Подгорная Чудь</h3>
-          <p>Хранители Памяти. Древнейшая цивилизация Ильнира.</p>
+          <p>Хранители Памяти.</p>
         </div>
 
-        <div class="card">
+        <div class="card civ-card" onclick="openCivilization(
+          'Древляне',
+          'assets/images/civilizations/civilization_drevlyane.png',
+          'Древний народ лесов и священных рощ. Древляне живут в гармонии с природой и чтят духов предков. Они хранят древние знания о травах, зверях и равновесии мира.'
+        )">
           <img src="assets/images/civilizations/civilization_drevlyane.png" alt="Древляне">
           <h3>Древляне</h3>
-          <p>Хранители Живого Мира. Народ лесов, духов и древнего равновесия.</p>
+          <p>Хранители Живого Мира.</p>
         </div>
 
-        <div class="card">
-          <img src="assets/images/civilizations/civilization_barons.png" alt="Берег Баронов">
+        <div class="card civ-card" onclick="openCivilization(
+          'Побережье Баронов',
+          'assets/images/civilizations/civilization_barons.png',
+          'Морская конфедерация баронских домов, капитанов, торговцев и частных флотов. Их власть держится на портах, кораблях, торговых путях и контроле над морем.'
+        )">
+          <img src="assets/images/civilizations/civilization_barons.png" alt="Побережье Баронов">
           <h3>Побережье Баронов</h3>
-          <p>Хранители Морей. Власть флотов, торговли и серой морали.</p>
+          <p>Хранители Морей.</p>
         </div>
 
-        <div class="card sealed">
+        <div class="card civ-card" onclick="openCivilization(
+          'Храмовый Собор',
+          'assets/images/civilizations/civilization_temple.png',
+          'Один из трёх великих столпов Ильнира. Храмовый Собор хранит веру, надежду и духовное единство земель после Пепельного Разлома.'
+        )">
           <img src="assets/images/civilizations/civilization_temple.png" alt="Храмовый Собор">
           <h3>Храмовый Собор</h3>
-          <p>Эта летопись ещё скрыта от глаз Путников.</p>
+          <p>Хранители Веры.</p>
         </div>
 
-        <div class="card sealed">
+        <div class="card civ-card" onclick="openCivilization(
+          'Башня Магии',
+          'assets/images/civilizations/civilization_tower.png',
+          'Главный центр знаний Ильнира. Магистры Башни изучают магию, Пепельный Разлом, древние хроники и тайны мира, чтобы сохранить знание для будущих поколений.'
+        )">
           <img src="assets/images/civilizations/civilization_tower.png" alt="Башня Магии">
           <h3>Башня Магии</h3>
-          <p>Запись запечатана Советом Хранителей Памяти.</p>
+          <p>Хранители Знания.</p>
         </div>
 
-        <div class="card sealed">
+        <div class="card civ-card" onclick="openCivilization(
+          'Пепельные Рода',
+          'assets/images/civilizations/civilization_ashen_clans.png',
+          'Потомки людей, оставшихся рядом с Пепельным Разломом. Они научились жить там, где другие не выживают, и считают себя хранителями его границ.'
+        )">
           <img src="assets/images/civilizations/civilization_ashen_clans.png" alt="Пепельные Рода">
           <h3>Пепельные Рода</h3>
-          <p>Мы живём там, где другие боятся дышать.</p>
+          <p>Хранители Разлома.</p>
         </div>
+
       </div>
     </div>
   </section>
@@ -353,6 +463,46 @@
     <p>Heartlands: From Ashes to Empire</p>
     <p>The World Remembers.</p>
   </footer>
+
+  <div class="modal" id="civilizationModal">
+    <div class="modal-close" onclick="closeCivilization()">×</div>
+
+    <div class="modal-content">
+      <img id="modalImage" class="modal-image" alt="">
+      <div class="modal-text">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openCivilization(title, image, text) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalImage").src = image;
+      document.getElementById("modalImage").alt = title;
+      document.getElementById("modalDescription").innerText = text;
+      document.getElementById("civilizationModal").classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCivilization() {
+      document.getElementById("civilizationModal").classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("civilizationModal").addEventListener("click", function(e) {
+      if (e.target === this) {
+        closeCivilization();
+      }
+    });
+
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") {
+        closeCivilization();
+      }
+    });
+  </script>
 
 </body>
 </html>
