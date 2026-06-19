@@ -706,6 +706,16 @@
     document.addEventListener("keydown", function(e) {
       if (e.key === "Escape") closeModal();
     });
+
+    function toggleArchive() {
+  const archive = document.getElementById("archiveText");
+
+  if (archive.style.display === "block") {
+    archive.style.display = "none";
+  } else {
+    archive.style.display = "block";
+  }
+}
   </script>
 
 </body>
